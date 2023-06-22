@@ -1,11 +1,14 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import './student_page.dart';
+import './ui/pages/student_page.dart';
+import './controllers/student_controller.dart';
 
 class StudentModule extends Module {
   @override
   List<Bind> get binds {
-    return <Bind<Object>>[];
+    return <Bind<Object>>[
+      Bind.lazySingleton((i) => StudentController(i())),
+    ];
   }
 
   @override
