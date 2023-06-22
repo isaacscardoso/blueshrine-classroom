@@ -1,0 +1,76 @@
+import 'dart:developer';
+
+import 'package:mobx/mobx.dart';
+
+import '../../../models/student_model.dart';
+import '../../../repositories/student/student_repository.dart';
+import '../enums/student_state_status.dart';
+
+part 'student_controller.g.dart';
+
+class StudentController = StudentControllerBase with _$StudentController;
+
+abstract class StudentControllerBase with Store {
+  final StudentRepository _studentRepository;
+
+  StudentControllerBase(this._studentRepository);
+
+  @readonly
+  var _stateStatus = StudentStateStatus.initial;
+
+  @readonly
+  var _students = <StudentModel>[];
+
+  @readonly
+  String? _errorMessage;
+
+  @readonly
+  String? _filteredName;
+
+  @readonly
+  bool? _filterEnabled;
+
+  @readonly
+  StudentModel? _studentSelected;
+
+  @action
+  Future<void> add() async {
+    _stateStatus = StudentStateStatus.loading;
+    await Future.delayed(Duration.zero);
+    _studentSelected = null;
+    _stateStatus = StudentStateStatus.addOrUpdate;
+  }
+
+  @action
+  Future<void> update(StudentModel student) async {
+    _stateStatus = StudentStateStatus.loading;
+    await Future.delayed(Duration.zero);
+    _studentSelected = student;
+    _stateStatus = StudentStateStatus.addOrUpdate;
+  }
+
+  @action
+  Future<void> fetchAll() async {
+    try {
+      _stateStatus = StudentStateStatus.loading;
+      _students = await _studentRepository.fetchAll(_filteredName);
+      _stateStatus = StudentStateStatus.loaded;
+    } catch (e, s) {
+      log('Erro ao buscar alunos.', error: e, stackTrace: s);
+      _stateStatus = StudentStateStatus.error;
+      _errorMessage = 'Erro ao buscar alunos.';
+    }
+  }
+
+  @action
+  Future<void> fetchById(String name) async {
+    _filteredName = name;
+    await fetchAll();
+  }
+
+  @action
+  void changeFilter(bool? isEnabled) {
+    _filterEnabled = isEnabled;
+    fetchAll();
+  }
+}
