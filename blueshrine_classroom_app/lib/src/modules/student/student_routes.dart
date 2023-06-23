@@ -1,3 +1,3 @@
 abstract class StudentRoutes {
-  static String studentForm = '/form';
+  static String studentForm = '/students/form';
 }
