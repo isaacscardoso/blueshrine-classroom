@@ -5,7 +5,7 @@ final class StudentModel {
   final String name;
   final String email;
   final String phone;
-  final String description;
+  final String? description;
   final double monthlyPayment;
   final bool isActive;
   final DateTime? updatedAt;
@@ -13,14 +13,14 @@ final class StudentModel {
 
   StudentModel({
     this.id,
+    this.description,
+    this.updatedAt,
+    this.createdAt,
     required this.name,
     required this.email,
     required this.phone,
-    required this.description,
     required this.monthlyPayment,
     required this.isActive,
-    this.updatedAt,
-    this.createdAt,
   });
 
   Map<String, dynamic> toMap() {
