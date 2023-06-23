@@ -33,6 +33,9 @@ class DatabaseHelper {
     CREATE TABLE IF NOT EXISTS `students` (
       `id` INTEGER PRIMARY KEY AUTOINCREMENT,
       `name` VARCHAR(60) NOT NULL,
+      `email` VARCHAR(60) NOT NULL,
+      `phone` VARCHAR(15) NOT NULL,
+      `monthly_payment` DECIMAL(10, 2) NOT NULL,
       `description` TEXT,
       `status` INTEGER,
       `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

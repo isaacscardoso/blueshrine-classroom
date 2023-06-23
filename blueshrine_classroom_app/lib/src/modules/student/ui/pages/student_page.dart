@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../../../models/student_model.dart';
-import '../../../../repositories/student/student_repository.dart';
-import '../../../../repositories/student/student_repository_impl.dart';
 import '../../controllers/student_controller.dart';
 import '../../enums/student_state_status.dart';
+import '../../student_routes.dart';
 
 class StudentPage extends StatefulWidget {
   const StudentPage({super.key});
@@ -42,10 +39,15 @@ class _StudentPageState extends State<StudentPage> {
             stateStatus = 'Erro';
             break;
           case StudentStateStatus.adding:
-            stateStatus = 'Adicionando';
+            Modular.to.pushNamed(
+              StudentRoutes.studentForm,
+            );
             break;
           case StudentStateStatus.updating:
-            stateStatus = 'Atualizando';
+            Modular.to.pushNamed(
+              StudentRoutes.studentForm,
+              arguments: studentController.studentSelected?.id,
+            );
             break;
         }
       });
@@ -59,24 +61,6 @@ class _StudentPageState extends State<StudentPage> {
     super.dispose();
   }
 
-  void insert() {
-    final StudentModel student = StudentModel(
-      name: 'Isaac',
-      description: 'Rei Azulado',
-      isActive: true,
-    );
-    Modular.get<StudentRepositoryImpl>().insert(student);
-  }
-
-  void fetchAll() async {
-    final students = await Modular.get<StudentRepositoryImpl>().fetchAll();
-    for (var s in students) {
-      print(
-        'ID: ${s.id} - Name: ${s.name} - CreatedAt: ${s.createdAt} - UpdatedAt: ${s.updatedAt} Status: ${s.isActive}',
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,18 +72,14 @@ class _StudentPageState extends State<StudentPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Observer(
-                builder: (_) => Text('State Status: $stateStatus'),
-              ),
-              const SizedBox(height: 8),
               ElevatedButton(
-                onPressed: () => fetchAll(),
-                child: const Text('Fetch All'),
+                onPressed: () => studentController.add(),
+                child: const Text('Adicionar Aluno'),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () => insert(),
-                child: const Text('Insert'),
+                onPressed: () {},
+                child: const Text('Editar Aluno'),
               ),
             ],
           ),

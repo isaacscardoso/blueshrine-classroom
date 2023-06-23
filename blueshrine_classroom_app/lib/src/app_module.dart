@@ -15,7 +15,11 @@ class AppModule extends Module {
   @override
   List<ModularRoute> get routes {
     return <ModularRoute>[
-      ModuleRoute(AppRoutes.studentModule, module: StudentModule())
+      ModuleRoute(
+        AppRoutes.studentModule,
+        module: StudentModule(),
+        transition: TransitionType.fadeIn,
+      )
     ];
   }
 }
