@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import './app_routes.dart';
+import './core/ui/theme/theme_config.dart';
 
 class AppWidget extends StatelessWidget {
   late final GlobalKey<NavigatorState> _navigatorKey;
@@ -17,7 +18,7 @@ class AppWidget extends StatelessWidget {
 
     return MaterialApp.router(
       title: 'Blueshrine Classroom',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeConfig.theme,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
     );
