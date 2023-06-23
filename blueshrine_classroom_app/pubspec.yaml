@@ -41,6 +41,8 @@ dependencies:
   sqflite: ^2.2.8+4
   path_provider: ^2.0.15
   path: ^1.8.3
+  validatorless: ^1.2.3
+  brasil_fields: ^1.13.1
 
 dev_dependencies:
   flutter_test:
