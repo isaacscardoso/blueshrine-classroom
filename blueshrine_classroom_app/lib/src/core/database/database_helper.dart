@@ -34,7 +34,7 @@ class DatabaseHelper {
       `id` INTEGER PRIMARY KEY AUTOINCREMENT,
       `name` VARCHAR(60) NOT NULL,
       `description` TEXT,
-      `status` ENUM('Active', 'Inactive') NOT NULL,
+      `status` INTEGER,
       `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       `updatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
