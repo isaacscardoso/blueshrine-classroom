@@ -38,7 +38,7 @@ abstract class StudentControllerBase with Store {
     _stateStatus = StudentStateStatus.loading;
     await Future.delayed(Duration.zero);
     _studentSelected = null;
-    _stateStatus = StudentStateStatus.addOrUpdate;
+    _stateStatus = StudentStateStatus.adding;
   }
 
   @action
@@ -46,14 +46,14 @@ abstract class StudentControllerBase with Store {
     _stateStatus = StudentStateStatus.loading;
     await Future.delayed(Duration.zero);
     _studentSelected = student;
-    _stateStatus = StudentStateStatus.addOrUpdate;
+    _stateStatus = StudentStateStatus.updating;
   }
 
   @action
   Future<void> fetchAll() async {
     try {
       _stateStatus = StudentStateStatus.loading;
-      _students = await _studentRepository.fetchAll(_filteredName);
+      _students = await _studentRepository.fetchAll(name: _filteredName);
       _stateStatus = StudentStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao buscar alunos.', error: e, stackTrace: s);

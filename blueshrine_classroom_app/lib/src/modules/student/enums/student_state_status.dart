@@ -3,5 +3,6 @@ enum StudentStateStatus {
   loading,
   loaded,
   error,
-  addOrUpdate,
+  adding,
+  updating,
 }
