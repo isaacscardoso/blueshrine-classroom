@@ -40,7 +40,7 @@ final class StudentModel {
       'id': id,
       'name': name,
       'description': description,
-      'status': isActive == true ? 'Active' : 'Inactive',
+      'status': isActive == true ? 1 : 0,
       'updatedAt': updatedAt,
       'createdAt': createdAt,
     };
@@ -51,7 +51,7 @@ final class StudentModel {
       id: map['id']?.toInt(),
       name: map['name'] ?? '',
       description: map['description'] ?? '',
-      isActive: map['status'] == 'Active' ? true : false,
+      isActive: map['status'] == 1 ? true : false,
       updatedAt:
           map['updatedAt'] != null ? DateTime.parse(map['updatedAt']) : null,
       createdAt:
