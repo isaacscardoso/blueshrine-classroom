@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:mobx/mobx.dart';
 
+import '../../../core/global/constants.dart';
 import '../../../models/student_model.dart';
 import '../../../repositories/student/student_repository.dart';
 import '../enums/student_state_status.dart';
@@ -56,9 +57,9 @@ abstract class StudentControllerBase with Store {
       _students = await _studentRepository.fetchAll(name: _filteredName);
       _stateStatus = StudentStateStatus.loaded;
     } catch (e, s) {
-      log('Erro ao buscar alunos.', error: e, stackTrace: s);
+      log(RepositoryErrorMessages.fetchAll.message, error: e, stackTrace: s);
       _stateStatus = StudentStateStatus.error;
-      _errorMessage = 'Erro ao buscar alunos.';
+      _errorMessage = RepositoryErrorMessages.fetchAll.message;
     }
   }
 

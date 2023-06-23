@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import './ui/pages/student_page.dart';
+import 'ui/pages/student_list_page.dart';
 import './ui/pages/student_form_page.dart';
 import './controllers/student_controller.dart';
 
@@ -15,7 +15,7 @@ class StudentModule extends Module {
   @override
   List<ModularRoute> get routes {
     return <ModularRoute>[
-      ChildRoute('/', child: (context, args) => const StudentPage()),
+      ChildRoute('/', child: (context, args) => const StudentListPage()),
       ChildRoute(
         '/form',
         child: (context, args) => const StudentFormPage(),
