@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/ui/helpers/loader.dart';
+import '../../../../core/ui/helpers/messages.dart';
 import '../../../../models/student_model.dart';
 import '../../controllers/student_controller.dart';
 import '../../enums/student_state_status.dart';
@@ -15,11 +17,10 @@ class StudentListPage extends StatefulWidget {
   State<StudentListPage> createState() => _StudentListPageState();
 }
 
-class _StudentListPageState extends State<StudentListPage> {
+class _StudentListPageState extends State<StudentListPage>
+    with Loader, Messages {
   late final ReactionDisposer statusReactionDisposer;
   final studentController = Modular.get<StudentController>();
-
-  String stateStatus = '(...)';
 
   @override
   void initState() {
@@ -29,23 +30,25 @@ class _StudentListPageState extends State<StudentListPage> {
           reaction((_) => studentController.stateStatus, (status) async {
         switch (status) {
           case StudentStateStatus.initial:
-            stateStatus = 'Inicial';
             break;
           case StudentStateStatus.loading:
-            stateStatus = 'Carregando';
+            showLoader();
             break;
           case StudentStateStatus.loaded:
-            stateStatus = 'Carregado';
+            hideLoader();
             break;
           case StudentStateStatus.error:
-            stateStatus = 'Erro';
+            hideLoader();
+            showError(studentController.errorMessage ?? '');
             break;
           case StudentStateStatus.adding:
+            hideLoader();
             Modular.to.pushNamed(
               StudentRoutes.studentForm,
             );
             break;
           case StudentStateStatus.updating:
+            hideLoader();
             Modular.to.pushNamed(
               StudentRoutes.studentForm,
               arguments: studentController.studentSelected?.id,
@@ -89,6 +92,13 @@ class _StudentListPageState extends State<StudentListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Classroom'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.filter_list),
+            splashRadius: 24,
+            onPressed: () {},
+          ),
+        ],
       ),
       body: SafeArea(
         child: Container(
@@ -102,6 +112,42 @@ class _StudentListPageState extends State<StudentListPage> {
                 studentController: studentController,
               );
             },
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.person_add),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        color: Colors.black,
+        child: IconTheme(
+          data: const IconThemeData(color: Colors.white),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(width: 40),
+              IconButton(
+                icon: const Icon(Icons.home),
+                splashRadius: 20,
+                onPressed: () {},
+              ),
+              const SizedBox(width: 40),
+              IconButton(
+                icon: const Icon(Icons.list),
+                splashRadius: 24,
+                onPressed: () {},
+              ),
+              const SizedBox(width: 40),
+              IconButton(
+                icon: const Icon(Icons.checklist_rtl),
+                splashRadius: 24,
+                onPressed: () {},
+              ),
+            ],
           ),
         ),
       ),

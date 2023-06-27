@@ -20,7 +20,10 @@ class StudentDataPage extends StatelessWidget {
       child: ListTile(
         title: Text(student.name),
         subtitle: Text(student.email),
-        trailing: const CustomStudentDataTrailing(),
+        trailing: CustomStudentDataTrailing(
+          student: student,
+          studentController: studentController,
+        ),
       ),
     );
   }
