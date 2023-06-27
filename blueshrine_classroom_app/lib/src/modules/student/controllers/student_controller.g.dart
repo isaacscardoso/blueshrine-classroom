@@ -117,20 +117,20 @@ mixin _$StudentController on StudentControllerBase, Store {
     });
   }
 
-  late final _$addAsyncAction =
-      AsyncAction('StudentControllerBase.add', context: context);
+  late final _$insertAsyncAction =
+      AsyncAction('StudentControllerBase.insert', context: context);
 
   @override
-  Future<void> add() {
-    return _$addAsyncAction.run(() => super.add());
+  Future<void> insert() {
+    return _$insertAsyncAction.run(() => super.insert());
   }
 
-  late final _$updateAsyncAction =
-      AsyncAction('StudentControllerBase.update', context: context);
+  late final _$editAsyncAction =
+      AsyncAction('StudentControllerBase.edit', context: context);
 
   @override
-  Future<void> update(StudentModel student) {
-    return _$updateAsyncAction.run(() => super.update(student));
+  Future<void> edit(StudentModel student) {
+    return _$editAsyncAction.run(() => super.edit(student));
   }
 
   late final _$fetchAllAsyncAction =

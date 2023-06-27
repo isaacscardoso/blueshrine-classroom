@@ -19,7 +19,7 @@ class CustomStudentDataTrailing extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
-          onPressed: () => studentController.update(student),
+          onPressed: () => studentController.edit(student),
           icon: const Icon(Icons.edit),
           color: Colors.blue,
           splashRadius: 22,

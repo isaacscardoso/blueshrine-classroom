@@ -42,7 +42,7 @@ final class StudentRepositoryImpl implements StudentRepository {
   }
 
   @override
-  Future<void> update(StudentModel student) async {
+  Future<void> edit(StudentModel student) async {
     final Database db = await DatabaseHelper.instance.database;
     final String sqlUpdate = '''
       UPDATE $_table SET

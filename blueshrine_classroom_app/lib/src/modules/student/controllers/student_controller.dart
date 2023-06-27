@@ -35,7 +35,7 @@ abstract class StudentControllerBase with Store {
   StudentModel? _studentSelected;
 
   @action
-  Future<void> add() async {
+  Future<void> insert() async {
     _stateStatus = StudentStateStatus.loading;
     await Future.delayed(Duration.zero);
     _studentSelected = null;
@@ -43,7 +43,7 @@ abstract class StudentControllerBase with Store {
   }
 
   @action
-  Future<void> update(StudentModel student) async {
+  Future<void> edit(StudentModel student) async {
     _stateStatus = StudentStateStatus.loading;
     await Future.delayed(Duration.zero);
     _studentSelected = student;
