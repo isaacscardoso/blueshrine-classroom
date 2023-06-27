@@ -30,12 +30,15 @@ final class StudentRepositoryImpl implements StudentRepository {
     final Database db = await DatabaseHelper.instance.database;
     final String sqlInsert = '''
       INSERT INTO $_table 
-        (`name`, `description`, `status`)
+        (`name`, `email`, `phone`, `monthly_payment`, `description`, `status`)
       VALUES
-        (?, ?, ?)
+        (?, ?, ?, ?, ?, ?)
     ''';
     await db.rawInsert(sqlInsert, [
       student.name,
+      student.email,
+      student.phone,
+      student.monthlyPayment,
       student.description,
       student.isActive,
     ]);
@@ -47,12 +50,18 @@ final class StudentRepositoryImpl implements StudentRepository {
     final String sqlUpdate = '''
       UPDATE $_table SET
         `name` = ?,
+        `email` = ?,
+        `phone` = ?,
+        `monthly_payment` = ?,
         `description` = ?,
         `status` = ?
       WHERE `id` = ?
     ''';
     await db.rawInsert(sqlUpdate, [
       student.name,
+      student.email,
+      student.phone,
+      student.monthlyPayment,
       student.description,
       student.isActive,
       student.id,

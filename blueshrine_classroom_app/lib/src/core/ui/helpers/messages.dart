@@ -8,8 +8,8 @@ mixin Messages<T extends StatefulWidget> on State<T> {
         title: 'Ocorreu um Erro.',
         message: message,
         contentType: ContentType.failure,
-        titleFontSize: 20,
-        messageFontSize: 16,
+        titleFontSize: 18,
+        messageFontSize: 14,
       ),
     );
   }

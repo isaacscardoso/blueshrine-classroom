@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
-import '../../../../models/student_model.dart';
 import '../../controllers/student_controller.dart';
 import '../../enums/student_state_status.dart';
 import '../../student_routes.dart';
@@ -66,30 +66,10 @@ class _StudentListPageState extends State<StudentListPage>
     super.dispose();
   }
 
-  final StudentModel student1 = StudentModel(
-    id: 1,
-    name: 'Isaac',
-    email: 'isaac@gmail.com',
-    phone: '(37) 9 9953-2728',
-    monthlyPayment: 300.0,
-    isActive: true,
-  );
-  final StudentModel student2 = StudentModel(
-    id: 2,
-    name: 'Moema',
-    email: 'moema@gmail.com',
-    phone: '(37) 9 9942-7716',
-    monthlyPayment: 300.0,
-    isActive: true,
-  );
-
-  final students = <StudentModel>[];
-
   @override
   Widget build(BuildContext context) {
-    students.addAll([student1, student2]);
-
     return Scaffold(
+      backgroundColor: Colors.grey[100]!,
       appBar: AppBar(
         title: const Text('Classroom'),
         actions: <Widget>[
@@ -101,17 +81,18 @@ class _StudentListPageState extends State<StudentListPage>
         ],
       ),
       body: SafeArea(
-        child: Container(
-          color: Colors.grey[100]!,
+        child: Padding(
           padding: const EdgeInsets.all(10),
-          child: ListView.builder(
-            itemCount: students.length,
-            itemBuilder: (context, index) {
-              return StudentDataPage(
-                student: students[index],
-                studentController: studentController,
-              );
-            },
+          child: Observer(
+            builder: (_) => ListView.builder(
+              itemCount: studentController.students.length,
+              itemBuilder: (context, index) {
+                return StudentDataPage(
+                  student: studentController.students[index],
+                  studentController: studentController,
+                );
+              },
+            ),
           ),
         ),
       ),
