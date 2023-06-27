@@ -95,7 +95,7 @@ class _StudentListPageState extends State<StudentListPage>
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.filter_list),
-            splashRadius: 24,
+            splashRadius: 22,
             onPressed: () {},
           ),
         ],
@@ -117,7 +117,7 @@ class _StudentListPageState extends State<StudentListPage>
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => studentController.add(),
         backgroundColor: Colors.green,
         child: const Icon(Icons.person_add),
       ),
@@ -132,19 +132,19 @@ class _StudentListPageState extends State<StudentListPage>
               const SizedBox(width: 40),
               IconButton(
                 icon: const Icon(Icons.home),
-                splashRadius: 20,
+                splashRadius: 22,
                 onPressed: () {},
               ),
               const SizedBox(width: 40),
               IconButton(
                 icon: const Icon(Icons.list),
-                splashRadius: 24,
+                splashRadius: 22,
                 onPressed: () {},
               ),
               const SizedBox(width: 40),
               IconButton(
                 icon: const Icon(Icons.checklist_rtl),
-                splashRadius: 24,
+                splashRadius: 22,
                 onPressed: () {},
               ),
             ],
