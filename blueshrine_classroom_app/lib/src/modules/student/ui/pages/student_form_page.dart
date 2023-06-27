@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
+import 'package:brasil_fields/brasil_fields.dart';
+
 import '../../../../core/extensions/formatter_extension.dart';
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
@@ -108,6 +110,25 @@ class _StudentFormPageState extends State<StudentFormPage>
             ),
           ),
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final bool formIsValid = formKey.currentState?.validate() ?? false;
+          if (formIsValid) {
+            studentFormController.save(
+              name: nameEC.text,
+              email: emailEC.text,
+              phone: phoneEC.text,
+              description: descriptionEC.text,
+              monthlyPayment: UtilBrasilFields.converterMoedaParaDouble(
+                monthlyPaymentEC.text,
+              ),
+            );
+          }
+        },
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.save),
       ),
     );
   }

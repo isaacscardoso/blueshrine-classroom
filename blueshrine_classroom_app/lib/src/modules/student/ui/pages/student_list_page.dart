@@ -101,7 +101,7 @@ class _StudentListPageState extends State<StudentListPage>
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () => studentController.insert(),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blue,
         child: const Icon(Icons.person_add),
       ),
       bottomNavigationBar: BottomAppBar(
