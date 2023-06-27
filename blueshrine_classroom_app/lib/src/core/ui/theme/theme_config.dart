@@ -17,7 +17,7 @@ final class ThemeConfig {
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black,
       elevation: 0,
-      iconTheme: IconThemeData(color: Colors.black),
+      iconTheme: IconThemeData(color: Colors.white),
     ),
     colorScheme: ColorScheme.fromSeed(
       seedColor: ColorsApp.instance.primary,
