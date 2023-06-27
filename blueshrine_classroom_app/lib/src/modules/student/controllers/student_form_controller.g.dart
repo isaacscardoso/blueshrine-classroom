@@ -63,17 +63,17 @@ mixin _$StudentFormController on StudentFormControllerBase, Store {
     });
   }
 
-  late final _$insertAsyncAction =
-      AsyncAction('StudentFormControllerBase.insert', context: context);
+  late final _$saveAsyncAction =
+      AsyncAction('StudentFormControllerBase.save', context: context);
 
   @override
-  Future<void> insert(
+  Future<void> save(
       {required String name,
       required String email,
       required String phone,
       required double monthlyPayment,
       String? description}) {
-    return _$insertAsyncAction.run(() => super.insert(
+    return _$saveAsyncAction.run(() => super.save(
         name: name,
         email: email,
         phone: phone,

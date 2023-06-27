@@ -27,7 +27,7 @@ abstract class StudentFormControllerBase with Store {
   StudentFormControllerBase(this._studentRepository);
 
   @action
-  Future<void> insert({
+  Future<void> save({
     required String name,
     required String email,
     required String phone,
@@ -36,16 +36,28 @@ abstract class StudentFormControllerBase with Store {
   }) async {
     try {
       _stateStatus = StudentFormStateStatus.loading;
-      final student = StudentModel(
-        id: _studentModel?.id,
-        name: name,
-        email: email,
-        phone: phone,
-        monthlyPayment: monthlyPayment,
-        description: description,
-        isActive: _studentModel?.isActive ?? true,
-      );
-      await _studentRepository.insert(student);
+      if (_studentModel?.id == null) {
+        final student = StudentModel(
+          name: name,
+          email: email,
+          phone: phone,
+          monthlyPayment: monthlyPayment,
+          description: description,
+          isActive: _studentModel?.isActive ?? true,
+        );
+        await _studentRepository.insert(student);
+      } else {
+        final student = StudentModel(
+          id: _studentModel?.id,
+          name: name,
+          email: email,
+          phone: phone,
+          monthlyPayment: monthlyPayment,
+          description: description,
+          isActive: _studentModel?.isActive ?? true,
+        );
+        await _studentRepository.edit(student);
+      }
       _stateStatus = StudentFormStateStatus.saved;
     } catch (e, s) {
       log(RepositoryErrorMessages.insert.message, error: e, stackTrace: s);
