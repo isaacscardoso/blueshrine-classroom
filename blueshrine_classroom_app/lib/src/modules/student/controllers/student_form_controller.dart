@@ -36,28 +36,18 @@ abstract class StudentFormControllerBase with Store {
   }) async {
     try {
       _stateStatus = StudentFormStateStatus.loading;
-      if (_studentModel?.id == null) {
-        final student = StudentModel(
-          name: name,
-          email: email,
-          phone: phone,
-          monthlyPayment: monthlyPayment,
-          description: description,
-          isActive: _studentModel?.isActive ?? true,
-        );
-        await _studentRepository.insert(student);
-      } else {
-        final student = StudentModel(
-          id: _studentModel?.id,
-          name: name,
-          email: email,
-          phone: phone,
-          monthlyPayment: monthlyPayment,
-          description: description,
-          isActive: _studentModel?.isActive ?? true,
-        );
-        await _studentRepository.edit(student);
-      }
+
+      final student = StudentModel(
+        id: _studentModel?.id,
+        name: name,
+        email: email,
+        phone: phone,
+        monthlyPayment: monthlyPayment,
+        description: description,
+        isActive: _studentModel?.isActive ?? true,
+      );
+      await _studentRepository.save(student);
+
       _stateStatus = StudentFormStateStatus.saved;
     } catch (e, s) {
       log(RepositoryErrorMessages.insert.message, error: e, stackTrace: s);

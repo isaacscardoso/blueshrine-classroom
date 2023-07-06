@@ -5,9 +5,7 @@ abstract interface class StudentRepository {
 
   Future<StudentModel> fetchById(int id);
 
-  Future<void> insert(StudentModel student);
-
-  Future<void> edit(StudentModel student);
+  Future<void> save(StudentModel student);
 
   Future<void> delete(int id);
 }

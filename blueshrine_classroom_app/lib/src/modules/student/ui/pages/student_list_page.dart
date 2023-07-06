@@ -43,9 +43,7 @@ class _StudentListPageState extends State<StudentListPage>
             break;
           case StudentStateStatus.adding:
             hideLoader();
-            await Modular.to.pushNamed(
-              StudentRoutes.studentForm,
-            );
+            await Modular.to.pushNamed(StudentRoutes.studentForm);
             studentController.fetchAll();
             break;
           case StudentStateStatus.updating:

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../../models/student_model.dart';
 import '../../controllers/student_controller.dart';
+import '../../controllers/student_form_controller.dart';
 
 class CustomStudentDataTrailing extends StatelessWidget {
   final StudentModel student;
@@ -25,7 +27,7 @@ class CustomStudentDataTrailing extends StatelessWidget {
           splashRadius: 22,
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () => Modular.get<StudentFormController>().delete(),
           icon: const Icon(Icons.delete),
           color: Colors.red,
           splashRadius: 22,

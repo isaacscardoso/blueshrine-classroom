@@ -1,76 +1,29 @@
-import 'package:sqflite/sqflite.dart';
-
-import '../../core/database/database_helper.dart';
+import '../../core/database/data_access_object.dart';
 import '../../models/student_model.dart';
 import './student_repository.dart';
 
 final class StudentRepositoryImpl implements StudentRepository {
-  final _table = 'students';
+  final DataAccessObject _dao;
+
+  const StudentRepositoryImpl(this._dao);
 
   @override
   Future<List<StudentModel>> fetchAll({String? name}) async {
-    final Database db = await DatabaseHelper.instance.database;
-    final students = await db.query(_table);
-    return students.map<StudentModel>((s) => StudentModel.fromMap(s)).toList();
+    return await _dao.fetchAll(name) as List<StudentModel>;
   }
 
   @override
   Future<StudentModel> fetchById(int id) async {
-    final Database db = await DatabaseHelper.instance.database;
-    final student = await db.query(
-      _table,
-      where: '`id` = ?',
-      whereArgs: [id],
-    );
-    return StudentModel.fromMap(student[0]);
+    return await _dao.fetchById(id) as StudentModel;
   }
 
   @override
-  Future<void> insert(StudentModel student) async {
-    final Database db = await DatabaseHelper.instance.database;
-    final String sqlInsert = '''
-      INSERT INTO $_table 
-        (`name`, `email`, `phone`, `monthly_payment`, `description`, `status`)
-      VALUES
-        (?, ?, ?, ?, ?, ?)
-    ''';
-    await db.rawInsert(sqlInsert, [
-      student.name,
-      student.email,
-      student.phone,
-      student.monthlyPayment,
-      student.description,
-      student.isActive,
-    ]);
-  }
-
-  @override
-  Future<void> edit(StudentModel student) async {
-    final Database db = await DatabaseHelper.instance.database;
-    final String sqlUpdate = '''
-      UPDATE $_table SET
-        `name` = ?,
-        `email` = ?,
-        `phone` = ?,
-        `monthly_payment` = ?,
-        `description` = ?,
-        `status` = ?
-      WHERE `id` = ?
-    ''';
-    await db.rawInsert(sqlUpdate, [
-      student.name,
-      student.email,
-      student.phone,
-      student.monthlyPayment,
-      student.description,
-      student.isActive,
-      student.id,
-    ]);
+  Future<void> save(StudentModel student) async {
+    await _dao.save(student);
   }
 
   @override
   Future<void> delete(int id) async {
-    final Database db = await DatabaseHelper.instance.database;
-    await db.delete(_table, where: '`id` = ?', whereArgs: [id]);
+    await _dao.delete(id);
   }
 }
