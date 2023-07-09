@@ -26,4 +26,9 @@ final class StudentRepositoryImpl implements StudentRepository {
   Future<void> delete(int id) async {
     await _dao.delete(id);
   }
+
+  @override
+  Stream<List<StudentModel>> listenToData() async* {
+    yield* _dao.listenToData();
+  }
 }

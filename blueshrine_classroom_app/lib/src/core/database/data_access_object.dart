@@ -6,4 +6,6 @@ abstract interface class DataAccessObject {
   Future<void> save<T>(T data);
 
   Future<void> delete(int id);
+
+  Stream<List<T>> listenToData<T>();
 }

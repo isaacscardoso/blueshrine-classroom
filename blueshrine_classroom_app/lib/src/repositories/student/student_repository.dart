@@ -8,4 +8,6 @@ abstract interface class StudentRepository {
   Future<void> save(StudentModel student);
 
   Future<void> delete(int id);
+
+  Stream<List<StudentModel>> listenToData();
 }

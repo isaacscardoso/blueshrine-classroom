@@ -50,4 +50,11 @@ class IsarDatabaseHelper implements DataAccessObject {
       database.studentModels.delete(id);
     });
   }
+
+  @override
+  Stream<List<T>> listenToData<T>() async* {
+    final database = await _isarDB;
+    yield* database.studentModels.where().watch(fireImmediately: true)
+        as Stream<List<T>>;
+  }
 }
