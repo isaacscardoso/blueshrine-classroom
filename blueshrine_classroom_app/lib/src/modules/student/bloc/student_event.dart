@@ -9,8 +9,6 @@ sealed class StudentEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class Initial extends StudentEvent {}
-
 final class Loading extends StudentEvent {}
 
 final class Saving extends StudentEvent {

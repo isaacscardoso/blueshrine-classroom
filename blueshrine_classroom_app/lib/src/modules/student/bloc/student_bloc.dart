@@ -11,10 +11,13 @@ import './student_state.dart';
 
 final class StudentBloc extends Bloc<StudentEvent, StudentState> {
   final StudentRepository _studentRepository;
-
-  StudentBloc(this._studentRepository) : super(const Loaded(students: []));
-
   var students = <StudentModel>[];
+
+  StudentBloc(this._studentRepository) : super(Initial()) {
+    on<Loading>((event, emit) => emit(Loaded(students: students)));
+    on<Saving>((event, emit) => emit(Saved()));
+    on<Deleting>((event, emit) => emit(Deleted()));
+  }
 
   Stream<StudentState> mapEventToState(StudentEvent event) async* {
     if (event is Loading) {

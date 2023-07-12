@@ -9,6 +9,8 @@ sealed class StudentState extends Equatable {
   List<Object?> get props => [];
 }
 
+final class Initial extends StudentState {}
+
 final class Loaded extends StudentState {
   final List<StudentModel> students;
 
@@ -19,8 +21,6 @@ final class Loaded extends StudentState {
 }
 
 final class Saved extends StudentState {}
-
-final class Updated extends StudentState {}
 
 final class Deleted extends StudentState {}
 
