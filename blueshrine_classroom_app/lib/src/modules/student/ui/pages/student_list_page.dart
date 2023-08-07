@@ -1,14 +1,15 @@
+import 'package:blueshrine_classroom/src/modules/student/ui/pages/student_data_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobx/mobx.dart';
 
 import '../../../../core/ui/helpers/loader.dart';
 import '../../../../core/ui/helpers/messages.dart';
-import '../../../../repositories/student/student_repository.dart';
-import '../../controllers/student_controller.dart';
-import '../../enums/student_state_status.dart';
-import '../../student_routes.dart';
-import './student_data_page.dart';
+
+import '../../../../models/student_model.dart';
+import '../../bloc/student_bloc.dart';
+import '../../bloc/student_event.dart';
+import '../../bloc/student_state.dart';
 
 class StudentListPage extends StatefulWidget {
   const StudentListPage({super.key});
@@ -19,51 +20,51 @@ class StudentListPage extends StatefulWidget {
 
 class _StudentListPageState extends State<StudentListPage>
     with Loader, Messages {
-  late final ReactionDisposer statusReactionDisposer;
-  final studentController = Modular.get<StudentController>();
+  final studentBloc = Modular.get<StudentBloc>();
+  final StudentModel student = StudentModel(
+    name: 'Isaac Cardoso Silva',
+    email: 'isaacscardosoblues@gmail.com',
+    phone: '37 999532728',
+    monthlyPayment: 500.0,
+    isActive: true,
+  );
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      statusReactionDisposer =
-          reaction((_) => studentController.stateStatus, (status) async {
-        switch (status) {
-          case StudentStateStatus.initial:
-            break;
-          case StudentStateStatus.loading:
-            showLoader();
-            break;
-          case StudentStateStatus.loaded:
-            hideLoader();
-            break;
-          case StudentStateStatus.error:
-            hideLoader();
-            showError(studentController.errorMessage ?? '');
-            break;
-          case StudentStateStatus.adding:
-            hideLoader();
-            await Modular.to.pushNamed(StudentRoutes.studentForm);
-            //studentController.fetchAll();
-            break;
-          case StudentStateStatus.updating:
-            hideLoader();
-            await Modular.to.pushNamed(
-              StudentRoutes.studentForm,
-              arguments: studentController.studentSelected?.id,
-            );
-            //studentController.fetchAll();
-            break;
-        }
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    statusReactionDisposer();
-    super.dispose();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     statusReactionDisposer =
+  //         reaction((_) => studentController.stateStatus, (status) async {
+  //       switch (status) {
+  //         case StudentStateStatus.initial:
+  //           break;
+  //         case StudentStateStatus.loading:
+  //           showLoader();
+  //           break;
+  //         case StudentStateStatus.loaded:
+  //           hideLoader();
+  //           break;
+  //         case StudentStateStatus.error:
+  //           hideLoader();
+  //           showError(studentController.errorMessage ?? '');
+  //           break;
+  //         case StudentStateStatus.adding:
+  //           hideLoader();
+  //           await Modular.to.pushNamed(StudentRoutes.studentForm);
+  //           //studentController.fetchAll();
+  //           break;
+  //         case StudentStateStatus.updating:
+  //           hideLoader();
+  //           await Modular.to.pushNamed(
+  //             StudentRoutes.studentForm,
+  //             arguments: studentController.studentSelected?.id,
+  //           );
+  //           //studentController.fetchAll();
+  //           break;
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -82,24 +83,63 @@ class _StudentListPageState extends State<StudentListPage>
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: StreamBuilder(
-            stream: Modular.get<StudentRepository>().listenToData(),
-            builder: (context, snapshot) => ListView(
-              children: snapshot.hasData
-                  ? snapshot.data!.map((e) {
+          child: BlocProvider(
+            create: (context) => studentBloc,
+            child: BlocBuilder<StudentBloc, StudentState>(
+              builder: (context, state) {
+                // return ListView.builder(
+                //   itemCount: studentBloc.students.length,
+                //   itemBuilder: (context, index) {
+                //     return StudentDataPage(
+                //       student: studentBloc.students[index],
+                //       studentBloc: studentBloc,
+                //     );
+                //   },
+                // );
+
+                if (state is Initial) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text('Estado Inicial'),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () =>
+                              studentBloc.add(Saving(student: student)),
+                          child: const Text('Adicionar'),
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (state is Loaded) {
+                  return ListView.builder(
+                    itemCount: state.students.length,
+                    itemBuilder: (context, index) {
                       return StudentDataPage(
-                        student: e,
-                        studentController: studentController,
+                        student: state.students[index],
+                        studentBloc: studentBloc,
                       );
-                    }).toList()
-                  : [],
+                    },
+                  );
+                } else if (state is Saved) {
+                  studentBloc.add(Loading());
+                  return const Center();
+                } else if (state is Deleted) {
+                  return const Center(child: Text('Deletado'));
+                } else if (state is Error) {
+                  return const Center(child: Text('Erro'));
+                } else {
+                  return const Center(child: Text('Desconhecido'));
+                }
+              },
             ),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () => studentController.insert(),
+        onPressed: () {},
         backgroundColor: Colors.blue,
         child: const Icon(Icons.person_add),
       ),

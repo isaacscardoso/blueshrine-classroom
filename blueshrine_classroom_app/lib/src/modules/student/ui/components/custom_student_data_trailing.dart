@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../../models/student_model.dart';
-import '../../controllers/student_controller.dart';
-import '../../controllers/student_form_controller.dart';
+import '../../bloc/student_bloc.dart';
 
 class CustomStudentDataTrailing extends StatelessWidget {
   final StudentModel student;
-  final StudentController studentController;
+  final StudentBloc studentBloc;
 
   const CustomStudentDataTrailing({
     super.key,
     required this.student,
-    required this.studentController,
+    required this.studentBloc,
   });
 
   @override
@@ -21,13 +19,13 @@ class CustomStudentDataTrailing extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
-          onPressed: () => studentController.edit(student),
+          onPressed: () {},
           icon: const Icon(Icons.edit),
           color: Colors.blue,
           splashRadius: 22,
         ),
         IconButton(
-          onPressed: () => Modular.get<StudentFormController>().delete(),
+          onPressed: () {},
           icon: const Icon(Icons.delete),
           color: Colors.red,
           splashRadius: 22,

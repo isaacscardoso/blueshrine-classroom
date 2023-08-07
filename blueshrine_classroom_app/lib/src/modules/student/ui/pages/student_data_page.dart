@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../../../../models/student_model.dart';
-import '../../controllers/student_controller.dart';
+import '../../bloc/student_bloc.dart';
 import '../components/custom_student_data_trailing.dart';
 
 class StudentDataPage extends StatelessWidget {
   final StudentModel student;
-  final StudentController studentController;
+  final StudentBloc studentBloc;
 
   const StudentDataPage({
     super.key,
     required this.student,
-    required this.studentController,
+    required this.studentBloc,
   });
 
   @override
@@ -22,7 +22,7 @@ class StudentDataPage extends StatelessWidget {
         subtitle: Text(student.email),
         trailing: CustomStudentDataTrailing(
           student: student,
-          studentController: studentController,
+          studentBloc: studentBloc,
         ),
       ),
     );

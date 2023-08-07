@@ -14,9 +14,18 @@ final class StudentBloc extends Bloc<StudentEvent, StudentState> {
   var students = <StudentModel>[];
 
   StudentBloc(this._studentRepository) : super(Initial()) {
-    on<Loading>((event, emit) => emit(Loaded(students: students)));
-    on<Saving>((event, emit) => emit(Saved()));
-    on<Deleting>((event, emit) => emit(Deleted()));
+    on<Loading>((event, emit) {
+      mapEventToState(event);
+      emit(Loaded(students: students));
+    });
+    on<Saving>((event, emit) {
+      mapEventToState(event);
+      emit(Saved());
+    });
+    on<Deleting>((event, emit) {
+      mapEventToState(event);
+      emit(Deleted());
+    });
   }
 
   Stream<StudentState> mapEventToState(StudentEvent event) async* {
